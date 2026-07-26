@@ -67,3 +67,10 @@ define('FIREBASE_MEASUREMENT_ID', env('FIREBASE_MEASUREMENT_ID', ''));
 
 // Base URL
 define('BASE_URL', env('BASE_URL', ''));
+
+// Admin Credentials
+define('ADMIN_EMAIL', env('ADMIN_EMAIL', 'admin@grin.com'));
+define('ADMIN_PASSWORD', env('ADMIN_PASSWORD', 'admin123'));
+
+// App Name
+define('APP_NAME', env('APP_NAME', 'Grin Dental Clinic'));
