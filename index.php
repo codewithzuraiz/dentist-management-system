@@ -2,9 +2,9 @@
 require_once 'config.php';
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header('Location: login.php');
+// Check if admin is logged in, redirect to dashboard
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+    header('Location: admin/dashboard.php');
     exit;
 }
 ?>

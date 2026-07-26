@@ -162,23 +162,29 @@
                                 </li>
                             </ul>
                             <div class="others-options d-flex align-items-center">
-                                <?php if (isset($_SESSION['user_email'])): ?>
-                                <div class="option-item">
-                                    <span style="color: #fff; font-size: 14px; margin-right: 10px;">
-                                        <i class="bx bx-user"></i> <?php echo htmlspecialchars($_SESSION['user_email']); ?>
-                                    </span>
-                                </div>
-                                <?php endif; ?>
                                 <div class="option-item">
                                     <div class="navbar-btn">
                                         <a class="default-btn" href="#appointment">Book Appointment</a>
                                     </div>
+                                </div>
+                                <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+                                <div class="option-item">
+                                    <span style="color: #fff; font-size: 14px; margin-right: 10px;">
+                                        <i class="bx bx-user"></i> <?php echo htmlspecialchars($_SESSION['user_email']); ?>
+                                    </span>
                                 </div>
                                 <div class="option-item">
                                     <div class="navbar-btn">
                                         <a class="default-btn" href="logout.php" style="background: #dc3545;">Logout</a>
                                     </div>
                                 </div>
+                                <?php else: ?>
+                                <div class="option-item">
+                                    <div class="navbar-btn">
+                                        <a class="default-btn" href="login.php">Login</a>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </nav>

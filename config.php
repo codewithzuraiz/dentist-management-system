@@ -37,7 +37,7 @@ function loadEnv($path) {
 }
 
 // Load .env from project root
-$envPath = dirname(__DIR__) . '/.env';
+$envPath = __DIR__ . '/.env';
 if (file_exists($envPath)) {
     loadEnv($envPath);
 } else {

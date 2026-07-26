@@ -4,9 +4,13 @@ require_once 'config.php';
 // Start session
 session_start();
 
-// If already logged in, redirect to index
+// If already logged in, redirect based on role
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    header('Location: index.php');
+    if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: admin/dashboard.php');
+    } else {
+        header('Location: index.php');
+    }
     exit;
 }
 
@@ -25,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['logged_in'] = true;
             $_SESSION['user_email'] = $email;
             $_SESSION['user_role'] = 'admin';
-            header('Location: index.php');
+            header('Location: admin/dashboard.php');
             exit;
         } else {
             // Check if user exists in session (registered users)
@@ -306,12 +310,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <button type="submit" class="btn-auth">Create Account</button>
                 </form>
-                
-                <div class="admin-hint">
-                    <strong>Admin Login:</strong><br />
-                    Email: admin@grin.com<br />
-                    Password: admin123
-                </div>
             </div>
         </div>
     </div>
