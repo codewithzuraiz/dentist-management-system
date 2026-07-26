@@ -1,10 +1,12 @@
 <?php
 session_start();
-
-// Destroy all session data
 session_unset();
 session_destroy();
 
-// Redirect to login page
-header('Location: login.php');
+$referer = $_SERVER['HTTP_REFERER'] ?? '';
+if (strpos($referer, '/admin/') !== false) {
+    header('Location: ../index.php');
+} else {
+    header('Location: index.php');
+}
 exit;

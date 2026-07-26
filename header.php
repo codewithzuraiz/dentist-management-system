@@ -181,7 +181,7 @@
                                 <?php else: ?>
                                 <div class="option-item">
                                     <div class="navbar-btn">
-                                        <a class="default-btn" href="login.php">Login</a>
+                                        <a class="default-btn" href="#" id="openLoginModal">Login</a>
                                     </div>
                                 </div>
                                 <?php endif; ?>
