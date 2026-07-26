@@ -185,9 +185,9 @@
             z-index: 99999;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
         .grin-login-overlay.active {
             display: flex;
@@ -198,11 +198,11 @@
             border-radius: 24px;
             overflow: hidden;
             position: relative;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: rgba(15, 25, 50, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
             animation: grinPopIn 0.35s ease;
         }
         @keyframes grinPopIn {
@@ -212,27 +212,31 @@
         .grin-login-close {
             position: absolute;
             top: 14px; right: 18px;
-            background: rgba(255,255,255,0.25);
-            border: none;
-            font-size: 22px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 20px;
             color: #fff;
-            width: 36px; height: 36px;
+            width: 34px; height: 34px;
             border-radius: 50%;
             cursor: pointer;
             z-index: 2;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .grin-login-close:hover {
-            background: rgba(255,255,255,0.45);
+            background: rgba(255,80,80,0.6);
+            border-color: rgba(255,80,80,0.4);
         }
         .grin-login-header {
             background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
             color: #fff;
-            padding: 30px 25px 20px;
+            padding: 28px 25px 20px;
             text-align: center;
         }
         .grin-login-header img {
-            width: 60px;
+            width: 56px;
             margin-bottom: 10px;
         }
         .grin-login-header h2 {
@@ -242,16 +246,16 @@
         }
         .grin-login-header p {
             margin: 4px 0 0;
-            opacity: 0.85;
+            opacity: 0.9;
             font-size: 13px;
         }
         .grin-login-body {
-            padding: 25px;
+            padding: 24px 25px 28px;
         }
         .grin-login-tabs {
             display: flex;
             margin-bottom: 20px;
-            border-bottom: 2px solid rgba(255,255,255,0.2);
+            border-bottom: 2px solid rgba(255,255,255,0.12);
         }
         .grin-login-tab {
             flex: 1;
@@ -259,10 +263,11 @@
             text-align: center;
             cursor: pointer;
             font-weight: 600;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
             border-bottom: 3px solid transparent;
             margin-bottom: -2px;
             transition: all 0.3s;
+            font-size: 15px;
         }
         .grin-login-tab.active {
             color: #fff;
@@ -281,27 +286,27 @@
             display: block;
             margin-bottom: 6px;
             font-weight: 500;
-            color: #fff;
+            color: rgba(255,255,255,0.85);
             font-size: 14px;
         }
         .grin-form-group input {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid rgba(255,255,255,0.25);
+            border: 1px solid rgba(255,255,255,0.15);
             border-radius: 12px;
             font-size: 15px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
             color: #fff;
             transition: all 0.3s;
         }
         .grin-form-group input::placeholder {
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
         }
         .grin-form-group input:focus {
             outline: none;
             border-color: #00b4d8;
-            background: rgba(255,255,255,0.18);
-            box-shadow: 0 0 0 3px rgba(0,180,216,0.15);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 0 0 3px rgba(0,180,216,0.2);
         }
         .grin-btn-auth {
             width: 100%;
@@ -314,10 +319,11 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin-top: 4px;
         }
         .grin-btn-auth:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,119,182,0.4);
+            box-shadow: 0 6px 24px rgba(0,119,182,0.5);
         }
         #grinLoginMsg {
             padding: 10px 14px;
@@ -325,11 +331,11 @@
             margin-bottom: 16px;
             font-size: 13px;
             color: #fff;
-            background: rgba(220,53,69,0.8);
+            background: rgba(220,53,69,0.85);
             border: 1px solid rgba(220,53,69,0.5);
         }
         #grinLoginMsg.success {
-            background: rgba(25,135,84,0.8);
+            background: rgba(25,135,84,0.85);
             border-color: rgba(25,135,84,0.5);
         }
     </style>
