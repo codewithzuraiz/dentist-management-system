@@ -1,15 +1,13 @@
 <?php
 session_start();
 
-$role = $_SESSION['user_role'] ?? 'user';
-$isAdmin = (strpos($_SERVER['REQUEST_URI'], '/admin/') !== false) || ($role === 'admin');
-
 session_unset();
 session_destroy();
 
-if ($isAdmin) {
-    header('Location: ../index.php');
-} else {
-    header('Location: index.php');
+if (ini_get('session.use_cookies')) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 }
+
+header('Location: index.php');
 exit;
