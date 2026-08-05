@@ -51,8 +51,8 @@ $baseUrl = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTT
         .endpoint-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
         .endpoint-header h3 { font-size: 16px; }
         .endpoint-header code { font-size: 13px; color: #555; background: #f0f0f0; padding: 2px 8px; border-radius: 4px; }
-        .endpoint p { color: #666; font-size: 14px; margin-bottom: 12px; }
-        .params-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+            .endpoint p { color: #666; font-size: 14px; margin-bottom: 12px; }
+            .params-table { width: 100%; border-collapse: collapse; font-size: 13px; }
         .params-table th { text-align: left; padding: 8px 12px; background: #f8f9fa; border-bottom: 2px solid var(--border); }
         .params-table td { padding: 8px 12px; border-bottom: 1px solid #eee; }
         .params-table .required { color: #dc3545; font-weight: 600; }
