@@ -1,213 +1,264 @@
-# Grin Dental Clinic - API Reference
+# =====================================================
+# GRIN DENTAL CLINIC - COMPLETE API REFERENCE
 # Mobile App API v1.0
+# =====================================================
 
-Base URL: `http://localhost/grin/api/v1/index.php`
-Header: `Authorization: Bearer {token}` (for protected routes)
+Base URL: http://localhost/grin/api/v1/index.php
+Header: Authorization: Bearer {token}
 
----
+----------------------------------------------------
+## AUTH APIs (Donon apps ke liye)
+----------------------------------------------------
 
-## AUTH MODULE (module=auth)
-
-### 1. Register
-- POST `?module=auth&action=register`
+### 1. Register (Patient signup)
+- POST ?module=auth&action=register
 - Body: name, email, password, phone, gender, date_of_birth, device_token
 - Returns: token + user data
 
-### 2. Login
-- POST `?module=auth&action=login`
+### 2. Login (Donon apps ka login)
+- POST ?module=auth&action=login
 - Body: email, password, device_token, device_type, device_name
-- Returns: token + user data
+- Returns: token + user data (role se pata chalta hai kaun si app hai)
 
 ### 3. Logout
-- POST `?module=auth&action=logout`
-- Auth Required: Yes
-- Revokes current token
+- POST ?module=auth&action=logout
+- Auth: Yes
+- Token delete karta hai
 
 ### 4. Forgot Password
-- POST `?module=auth&action=forgot-password`
+- POST ?module=auth&action=forgot-password
 - Body: email
-- Sends reset email
+- Email bhejta hai password reset link ke sath
 
-### 5. Profile
-- GET `?module=auth&action=profile` → Get profile
-- PUT `?module=auth&action=profile` → Update profile
-- Auth Required: Yes
+### 5. Profile Dekhna / Update Karna
+- GET ?module=auth&action=profile → Profile data
+- PUT ?module=auth&action=profile → Update (name, phone, profile_image)
+- Auth: Yes
 
----
+----------------------------------------------------
+## PATIENT APIs (Patient App ke liye)
+----------------------------------------------------
 
-## DENTIST MODULE (module=dentist)
+### 6. Patient Dashboard
+- GET ?module=patient&action=dashboard
+- Auth: Yes
+- Returns: upcoming appointments, prescriptions, stats
 
-### 6. Dashboard
-- GET `?module=dentist&action=dashboard`
-- Returns: today's stats, upcoming appointments, revenue
+### 7. Dentist Dhundhna (Find Dentists)
+- GET ?module=patient&action=dentists
+- Params: search, specialization, page
+- Auth: Yes
+- Saare available dentists dikhata hai filter ke sath
 
-### 7. Appointments
-- GET `?module=dentist&action=appointments`
-  - Params: date, status, page
-- PUT `?module=dentist&action=appointments`
-  - Body: id, status (completed/cancelled/no_show/confirmed)
-- Auth Required: Yes
-
-### 8. Patients
-- GET `?module=dentist&action=patients`
-  - Params: search, page
-- Auth Required: Yes
-
-### 9. Patient History
-- GET `?module=dentist&action=patient-history`
-  - Params: patient_id
-- Returns: medical records, prescriptions, appointments, treatment plans
-- Auth Required: Yes
-
-### 10. Treatment Notes
-- GET `?module=dentist&action=treatment-notes`
-  - Params: patient_id
-- POST `?module=dentist&action=treatment-notes`
-  - Body: patient_id, appointment_id, diagnosis, treatment_performed, notes, medications, follow_up_date
-- Auth Required: Yes
-
-### 11. Prescriptions
-- GET `?module=dentist&action=prescriptions`
-  - Params: patient_id
-- POST `?module=dentist&action=prescriptions`
-  - Body: patient_id, appointment_id, notes, medicines[{name, dosage, frequency, duration, instructions}]
-- Auth Required: Yes
-
-### 12. Treatment Plans
-- GET `?module=dentist&action=treatment-plans`
-  - Params: patient_id
-- POST `?module=dentist&action=treatment-plans`
-  - Body: patient_id, title, description, estimated_cost, items[{step_number, step_title, description, cost, status}]
-- Auth Required: Yes
-
-### 13. Schedule
-- GET `?module=dentist&action=schedule`
-- POST `?module=dentist&action=schedule`
-  - Body: working_days, working_start_time, working_end_time, exceptions[{date, type, start_time, end_time, reason}]
-- Auth Required: Yes
-
-### 14. Notifications
-- GET `?module=dentist&action=notifications`
-- Auth Required: Yes
-
----
-
-## PATIENT MODULE (module=patient)
-
-### 15. Dashboard
-- GET `?module=patient&action=dashboard`
-- Returns: upcoming appointments, recent prescriptions, stats
-- Auth Required: Yes
-
-### 16. Find Dentists
-- GET `?module=patient&action=dentists`
-  - Params: search, specialization, page
-- Auth Required: Yes
-
-### 17. Appointments
-- GET `?module=patient&action=appointments`
+### 8. Appointment Book Karna
+- GET ?module=patient&action=appointments → Saari appointments
   - Params: status, history (1 for past), page
-- POST `?module=patient&action=appointments`
+- POST ?module=patient&action=appointments → Nai appointment book
   - Body: dentist_id, treatment_id, appointment_date, start_time, end_time, notes
-- PUT `?module=patient&action=appointment/{id}`
-  - Body: status (reschedule/cancel)
-- DELETE `?module=patient&action=appointment/{id}`
-  - Cancel appointment
-- Auth Required: Yes
+- PUT ?module=patient&action=appointment/{id} → Reschedule
+  - Body: status
+- DELETE ?module=patient&action=appointment/{id} → Cancel
+- Auth: Yes
 
-### 18. Medical Records
-- GET `?module=patient&action=medical-records`
-- Auth Required: Yes
+### 9. Medical Records Dekhna
+- GET ?module=patient&action=medical-records
+- Auth: Yes
+- Apna pura medical history dikhata hai
 
-### 19. Prescriptions
-- GET `?module=patient&action=prescriptions`
-  - Params: page
-- Auth Required: Yes
+### 10. Prescriptions Dekhna
+- GET ?module=patient&action=prescriptions
+- Params: page
+- Auth: Yes
+- Saari prescriptions dikhata hai doctor ki taraf se
 
-### 20. Payments
-- GET `?module=patient&action=payments`
-- POST `?module=patient&action=payments`
+### 11. Payments Karna / Dekhna
+- GET ?module=patient&action=payments → Payment history
+- POST ?module=patient&action=payments → Online payment
   - Body: invoice_id, amount, gateway (stripe/jazzcash/easypaisa), notes
-- Auth Required: Yes
+- Auth: Yes
 
-### 21. Treatment Progress
-- GET `?module=patient&action=treatment-progress`
-  - Params: plan_id (optional)
-- Auth Required: Yes
+### 12. Treatment Progress Dekhna
+- GET ?module=patient&action=treatment-progress
+- Params: plan_id (optional)
+- Auth: Yes
+- Treatment plan ka progress dikhata hai
 
-### 22. Notifications
-- GET `?module=patient&action=notifications`
-- Auth Required: Yes
+### 13. Patient Notifications
+- GET ?module=patient?action=notifications
+- Auth: Yes
 
----
-
-## CHAT MODULE (module=chat)
-
-### 23. Conversations
-- GET `?module=chat&action=conversations`
-- POST `?module=chat&action=conversations`
-  - Body: dentist_id (patient) OR patient_id (dentist)
-- Auth Required: Yes
-
-### 24. Messages
-- GET `?module=chat&action=messages/{conversation_id}`
-  - Params: page
-- POST `?module=chat&action=messages`
-  - Body: conversation_id, message, message_type (text/image/file), file_path
-- Auth Required: Yes
-
-### 25. Mark Read
-- POST `?module=chat&action=read`
+### 14. Patient Chat
+- GET ?module=chat&action=conversations → Chat list
+- POST ?module=chat&action=conversations → Nai conversation
+  - Body: dentist_id
+- GET ?module=chat&action=messages/{id} → Messages
+- POST ?module=chat&action=messages → Message bhejo
+  - Body: conversation_id, message, message_type, file_path
+- POST ?module=chat&action=read → Read mark karo
   - Body: conversation_id
-- Auth Required: Yes
+- Auth: Yes
 
----
-
-## NOTIFICATIONS MODULE (module=notifications)
-
-### 26. List Notifications
-- GET `?module=notifications&action=list`
-- Auth Required: Yes
-
-### 27. Unread Count
-- GET `?module=notifications&action=unread-count`
-- Auth Required: Yes
-
-### 28. Mark Read
-- POST `?module=notifications&action=read`
-  - Body: id
-- Auth Required: Yes
-
-### 29. Mark All Read
-- POST `?module=notifications&action=read-all`
-- Auth Required: Yes
-
----
-
-## UPLOAD MODULE (module=upload)
-
-### 30. Upload Profile Image
-- POST `?module=upload&action=image`
-  - Content-Type: multipart/form-data
+### 15. Patient File Upload
+- POST ?module=upload&action=image → Profile photo
   - Body: file (JPEG/PNG/GIF/WEBP, max 5MB)
-- Auth Required: Yes
-
-### 31. Upload Medical File
-- POST `?module=upload&action=file`
-  - Content-Type: multipart/form-data
+- POST ?module=upload&action=file → Medical file
   - Body: file (PDF/DOC/DOCX/JPEG/PNG, max 10MB), patient_id, type (xray/report/prescription/image/document/other), title
-- Auth Required: Yes
-
-### 32. List Files
-- GET `?module=upload&action=list`
+- GET ?module=upload&action=list → Files list
   - Params: patient_id, type
-- Auth Required: Yes
+- Auth: Yes
 
----
+----------------------------------------------------
+## DOCTOR APIs (Dentist App ke liye)
+----------------------------------------------------
 
-## API DOCS
-- GET `?module=docs` → Visual API documentation page
+### 16. Doctor Dashboard
+- GET ?module=dentist&action=dashboard
+- Auth: Yes
+- Returns: today stats, upcoming appointments, revenue, completed count
 
----
+### 17. Appointments Management
+- GET ?module=dentist&action=appointments → Saari appointments
+  - Params: date, status, page
+- PUT ?module=dentist&action=appointments → Status update
+  - Body: id, status (completed/cancelled/no_show/confirmed)
+- Auth: Yes
 
-Total: 32 API Endpoints
+### 18. Patients Ki List
+- GET ?module=dentist&action=patients
+- Params: search, page
+- Auth: Yes
+- Saare patients dikhata hai search ke sath
+
+### 19. Patient History Dekhna
+- GET ?module=dentist&action=patient-history
+- Params: patient_id
+- Auth: Yes
+- Returns: medical records, prescriptions, appointments, treatment plans
+
+### 20. Treatment Notes
+- GET ?module=dentist&action=treatment-notes → Notes dekho
+  - Params: patient_id
+- POST ?module=dentist&action=treatment-notes → Nai note banao
+  - Body: patient_id, appointment_id, diagnosis, treatment_performed, notes, medications, follow_up_date
+- Auth: Yes
+
+### 21. Prescriptions Likho
+- GET ?module=dentist&action=prescriptions → Prescriptions dekho
+  - Params: patient_id
+- POST ?module=dentist&action=prescriptions → Nai prescription likho
+  - Body: patient_id, appointment_id, notes, medicines[{name, dosage, frequency, duration, instructions}]
+- Auth: Yes
+
+### 22. Treatment Plans Banao
+- GET ?module=dentist&action=treatment-plans → Plans dekho
+  - Params: patient_id
+- POST ?module=dentist&action=treatment-plans → Nai plan banao
+  - Body: patient_id, title, description, estimated_cost, items[{step_number, step_title, description, cost, status}]
+- Auth: Yes
+
+### 23. Schedule / Working Hours
+- GET ?module=dentist&action=schedule → Apna schedule dekho
+- POST ?module=dentist&action=schedule → Schedule update karo
+  - Body: working_days, working_start_time, working_end_time, exceptions[{date, type, start_time, end_time, reason}]
+- Auth: Yes
+
+### 24. Doctor Notifications
+- GET ?module=dentist&action=notifications
+- Auth: Yes
+
+### 25. Doctor Profile
+- GET ?module=dentist&action=profile → Profile dekho
+- PUT ?module=dentist&action=profile → Profile update karo
+- Auth: Yes
+
+### 26. Doctor Chat
+- GET ?module=chat&action=conversations → Chat list
+- POST ?module=chat&action=conversations → Nai conversation
+  - Body: patient_id
+- GET ?module=chat&action=messages/{id} → Messages
+- POST ?module=chat&action=messages → Message bhejo
+  - Body: conversation_id, message, message_type, file_path
+- POST ?module=chat&action=read → Read mark karo
+  - Body: conversation_id
+- Auth: Yes
+
+### 27. Doctor File Upload
+- POST ?module=upload&action=image → Profile photo
+  - Body: file (JPEG/PNG/GIF/WEBP, max 5MB)
+- POST ?module=upload&action=file → Medical file upload
+  - Body: file (PDF/DOC/DOCX/JPEG/PNG, max 10MB), patient_id, type, title
+- GET ?module=upload&action=list → Files list
+  - Params: patient_id, type
+- Auth: Yes
+
+----------------------------------------------------
+## SHARED APIs (Donon apps ke liye)
+----------------------------------------------------
+
+### 28. Notifications List
+- GET ?module=notifications&action=list
+- Auth: Yes
+
+### 29. Unread Count
+- GET ?module=notifications?action=unread-count
+- Auth: Yes
+
+### 30. Mark One Read
+- POST ?module=notifications&action=read
+- Body: id
+- Auth: Yes
+
+### 31. Mark All Read
+- POST ?module=notifications&action=read-all
+- Auth: Yes
+
+### 32. API Documentation (Visual)
+- GET ?module=docs
+- Web page khulega sab APIs ka documentation
+
+----------------------------------------------------
+## DATABASE TABLES (27 total)
+----------------------------------------------------
+
+Main Tables:
+1. users - Login data (admin, dentist, patient)
+2. roles - User roles
+3. permissions - System permissions
+4. role_permissions - Role-permission mapping
+5. patients - Patient details
+6. dentists - Dentist details
+7. treatments - Dental services/treatments
+8. appointments - Patient appointments
+9. invoices - Billing invoices
+10. invoice_items - Invoice line items
+11. payments - Payment records
+12. prescriptions - Doctor prescriptions
+13. prescription_medicines - Medicine list
+14. medical_records - Patient medical history
+15. notifications - App notifications
+16. system_settings - Clinic settings
+17. audit_logs - Activity logs
+
+Mobile App Tables:
+18. api_tokens - Auth tokens
+19. chat_conversations - Chat threads
+20. chat_messages - Chat messages
+21. dentist_schedules - Working hours
+22. treatment_plans - Treatment plans
+23. treatment_plan_items - Plan steps
+24. treatment_notes - Doctor notes
+25. payment_transactions - Online payments
+26. push_notifications - FCM push data
+27. medical_files - Uploaded files
+
+----------------------------------------------------
+## SEED DATA
+----------------------------------------------------
+
+Admin:    admin@grin.com / admin123
+Dentist:  usman@grin.com / password
+Patient:  ahmed@email.com / password
+
+----------------------------------------------------
+Total: 32 API Endpoints | 27 Database Tables
+----------------------------------------------------
