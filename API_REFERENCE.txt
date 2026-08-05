@@ -1,0 +1,213 @@
+# Grin Dental Clinic - API Reference
+# Mobile App API v1.0
+
+Base URL: `http://localhost/grin/api/v1/index.php`
+Header: `Authorization: Bearer {token}` (for protected routes)
+
+---
+
+## AUTH MODULE (module=auth)
+
+### 1. Register
+- POST `?module=auth&action=register`
+- Body: name, email, password, phone, gender, date_of_birth, device_token
+- Returns: token + user data
+
+### 2. Login
+- POST `?module=auth&action=login`
+- Body: email, password, device_token, device_type, device_name
+- Returns: token + user data
+
+### 3. Logout
+- POST `?module=auth&action=logout`
+- Auth Required: Yes
+- Revokes current token
+
+### 4. Forgot Password
+- POST `?module=auth&action=forgot-password`
+- Body: email
+- Sends reset email
+
+### 5. Profile
+- GET `?module=auth&action=profile` → Get profile
+- PUT `?module=auth&action=profile` → Update profile
+- Auth Required: Yes
+
+---
+
+## DENTIST MODULE (module=dentist)
+
+### 6. Dashboard
+- GET `?module=dentist&action=dashboard`
+- Returns: today's stats, upcoming appointments, revenue
+
+### 7. Appointments
+- GET `?module=dentist&action=appointments`
+  - Params: date, status, page
+- PUT `?module=dentist&action=appointments`
+  - Body: id, status (completed/cancelled/no_show/confirmed)
+- Auth Required: Yes
+
+### 8. Patients
+- GET `?module=dentist&action=patients`
+  - Params: search, page
+- Auth Required: Yes
+
+### 9. Patient History
+- GET `?module=dentist&action=patient-history`
+  - Params: patient_id
+- Returns: medical records, prescriptions, appointments, treatment plans
+- Auth Required: Yes
+
+### 10. Treatment Notes
+- GET `?module=dentist&action=treatment-notes`
+  - Params: patient_id
+- POST `?module=dentist&action=treatment-notes`
+  - Body: patient_id, appointment_id, diagnosis, treatment_performed, notes, medications, follow_up_date
+- Auth Required: Yes
+
+### 11. Prescriptions
+- GET `?module=dentist&action=prescriptions`
+  - Params: patient_id
+- POST `?module=dentist&action=prescriptions`
+  - Body: patient_id, appointment_id, notes, medicines[{name, dosage, frequency, duration, instructions}]
+- Auth Required: Yes
+
+### 12. Treatment Plans
+- GET `?module=dentist&action=treatment-plans`
+  - Params: patient_id
+- POST `?module=dentist&action=treatment-plans`
+  - Body: patient_id, title, description, estimated_cost, items[{step_number, step_title, description, cost, status}]
+- Auth Required: Yes
+
+### 13. Schedule
+- GET `?module=dentist&action=schedule`
+- POST `?module=dentist&action=schedule`
+  - Body: working_days, working_start_time, working_end_time, exceptions[{date, type, start_time, end_time, reason}]
+- Auth Required: Yes
+
+### 14. Notifications
+- GET `?module=dentist&action=notifications`
+- Auth Required: Yes
+
+---
+
+## PATIENT MODULE (module=patient)
+
+### 15. Dashboard
+- GET `?module=patient&action=dashboard`
+- Returns: upcoming appointments, recent prescriptions, stats
+- Auth Required: Yes
+
+### 16. Find Dentists
+- GET `?module=patient&action=dentists`
+  - Params: search, specialization, page
+- Auth Required: Yes
+
+### 17. Appointments
+- GET `?module=patient&action=appointments`
+  - Params: status, history (1 for past), page
+- POST `?module=patient&action=appointments`
+  - Body: dentist_id, treatment_id, appointment_date, start_time, end_time, notes
+- PUT `?module=patient&action=appointment/{id}`
+  - Body: status (reschedule/cancel)
+- DELETE `?module=patient&action=appointment/{id}`
+  - Cancel appointment
+- Auth Required: Yes
+
+### 18. Medical Records
+- GET `?module=patient&action=medical-records`
+- Auth Required: Yes
+
+### 19. Prescriptions
+- GET `?module=patient&action=prescriptions`
+  - Params: page
+- Auth Required: Yes
+
+### 20. Payments
+- GET `?module=patient&action=payments`
+- POST `?module=patient&action=payments`
+  - Body: invoice_id, amount, gateway (stripe/jazzcash/easypaisa), notes
+- Auth Required: Yes
+
+### 21. Treatment Progress
+- GET `?module=patient&action=treatment-progress`
+  - Params: plan_id (optional)
+- Auth Required: Yes
+
+### 22. Notifications
+- GET `?module=patient&action=notifications`
+- Auth Required: Yes
+
+---
+
+## CHAT MODULE (module=chat)
+
+### 23. Conversations
+- GET `?module=chat&action=conversations`
+- POST `?module=chat&action=conversations`
+  - Body: dentist_id (patient) OR patient_id (dentist)
+- Auth Required: Yes
+
+### 24. Messages
+- GET `?module=chat&action=messages/{conversation_id}`
+  - Params: page
+- POST `?module=chat&action=messages`
+  - Body: conversation_id, message, message_type (text/image/file), file_path
+- Auth Required: Yes
+
+### 25. Mark Read
+- POST `?module=chat&action=read`
+  - Body: conversation_id
+- Auth Required: Yes
+
+---
+
+## NOTIFICATIONS MODULE (module=notifications)
+
+### 26. List Notifications
+- GET `?module=notifications&action=list`
+- Auth Required: Yes
+
+### 27. Unread Count
+- GET `?module=notifications&action=unread-count`
+- Auth Required: Yes
+
+### 28. Mark Read
+- POST `?module=notifications&action=read`
+  - Body: id
+- Auth Required: Yes
+
+### 29. Mark All Read
+- POST `?module=notifications&action=read-all`
+- Auth Required: Yes
+
+---
+
+## UPLOAD MODULE (module=upload)
+
+### 30. Upload Profile Image
+- POST `?module=upload&action=image`
+  - Content-Type: multipart/form-data
+  - Body: file (JPEG/PNG/GIF/WEBP, max 5MB)
+- Auth Required: Yes
+
+### 31. Upload Medical File
+- POST `?module=upload&action=file`
+  - Content-Type: multipart/form-data
+  - Body: file (PDF/DOC/DOCX/JPEG/PNG, max 10MB), patient_id, type (xray/report/prescription/image/document/other), title
+- Auth Required: Yes
+
+### 32. List Files
+- GET `?module=upload&action=list`
+  - Params: patient_id, type
+- Auth Required: Yes
+
+---
+
+## API DOCS
+- GET `?module=docs` → Visual API documentation page
+
+---
+
+Total: 32 API Endpoints
