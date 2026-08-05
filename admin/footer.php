@@ -48,12 +48,6 @@
         document.getElementById(modalId).classList.remove('show');
     }
 
-    function showEditModal(modalId, id) {
-        var form = document.getElementById(modalId).querySelector('form');
-        if (form) form.action += '?id=' + id;
-        document.getElementById(modalId).classList.add('show');
-    }
-
     function deleteRecord(url, id) {
         if (confirm('Are you sure you want to delete this record?')) {
             var form = document.createElement('form');

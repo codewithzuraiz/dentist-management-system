@@ -125,7 +125,7 @@ if (isset($_GET['edit'])) {
 
 <div class="grin-card">
     <div class="grin-card-header">
-        <h2><i class="bx bx-dental"></i> Our Dentists (<?php echo $totalRows; ?>)</h2>
+        <h2><i class="bx bxs-user"></i> Our Dentists (<?php echo $totalRows; ?>)</h2>
         <div class="grin-card-header-actions">
             <form method="GET" class="grin-filter-form">
                 <div class="grin-search-wrapper">
