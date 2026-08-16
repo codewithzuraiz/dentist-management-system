@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_colors.dart';
+import 'reset_password_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -157,9 +158,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
           const SizedBox(height: 48),
 
-          // Back to Login
+          // Back to Sign In
           GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const ResetPasswordScreen(),
+                ),
+              );
+            },
             child: Text(
               'Back to Login',
               style: GoogleFonts.poppins(
