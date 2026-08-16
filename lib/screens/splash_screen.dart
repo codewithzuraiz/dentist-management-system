@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
-                    'assets/logo/logo-removebg-preview.png',
+                    'assets/logo/logo.png',
                     width: 180,
                     height: 180,
                     fit: BoxFit.contain,
