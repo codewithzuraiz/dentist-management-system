@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           seedColor: AppColors.primary,
           brightness: Brightness.light,
         ),
-        scaffoldBackgroundColor: AppColors.background,
+        scaffoldBackgroundColor: const Color(0xFFF2F6F5),
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       home: const SplashScreen(),
