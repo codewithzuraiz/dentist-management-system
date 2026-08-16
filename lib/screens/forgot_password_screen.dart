@@ -24,22 +24,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F5F4),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF3F5F4),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppColors.secondary,
-            size: 20,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: _isSubmitted ? _buildSuccessView() : _buildFormView(),
           ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 28),
-          child: _isSubmitted ? _buildSuccessView() : _buildFormView(),
         ),
       ),
     );
@@ -50,41 +40,47 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       key: _formKey,
       child: Column(
         children: [
-          // Icon
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.lock_reset_rounded,
-              size: 36,
-              color: AppColors.primary,
-            ),
-          ),
           const SizedBox(height: 20),
 
-          // Title
+          // Logo icon
+          Image.asset(
+            'assets/logo/logo.png',
+            width: 100,
+            height: 100,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(height: 6),
+
+          // DentiFlow text
           Text(
-            'Forgot Password?',
+            'DentiFlow',
             style: GoogleFonts.poppins(
-              fontSize: 22,
+              fontSize: 26,
               fontWeight: FontWeight.w700,
               color: AppColors.secondary,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 32),
+
+          // Forgot Password title
+          Text(
+            'Forgot Password?',
+            style: GoogleFonts.poppins(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 14),
 
           // Subtitle
           Text(
-            "No worries! Enter your email address\nand we'll send you a link to reset\nyour password.",
+            "Don't worry! Enter your registered email\naddress below and we'll send you a link\nto reset your password.",
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               fontSize: 13,
               color: AppColors.textSecondary,
-              height: 1.5,
+              height: 1.6,
             ),
           ),
           const SizedBox(height: 32),
@@ -127,17 +123,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 horizontal: 16,
               ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              if (!value.contains('@')) {
-                return 'Please enter a valid email';
-              }
-              return null;
-            },
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
 
           // Send Reset Link button
           SizedBox(
@@ -168,28 +155,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 48),
 
-          // Back to Sign In
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text.rich(
-              TextSpan(
-                text: 'Remember your password? ',
-                style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  color: AppColors.textSecondary,
-                ),
-                children: [
-                  TextSpan(
-                    text: 'Sign In',
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
+          // Back to Login
+          GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Text(
+              'Back to Login',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primary,
+                decoration: TextDecoration.underline,
+                decorationColor: AppColors.primary,
               ),
             ),
           ),
@@ -201,6 +179,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget _buildSuccessView() {
     return Column(
       children: [
+        const SizedBox(height: 20),
+
+        // Logo icon
+        Image.asset(
+          'assets/logo/logo.png',
+          width: 100,
+          height: 100,
+          fit: BoxFit.contain,
+        ),
+        const SizedBox(height: 6),
+
+        // DentiFlow text
+        Text(
+          'DentiFlow',
+          style: GoogleFonts.poppins(
+            fontSize: 26,
+            fontWeight: FontWeight.w700,
+            color: AppColors.secondary,
+          ),
+        ),
+        const SizedBox(height: 32),
+
         Container(
           width: 72,
           height: 72,
@@ -219,8 +219,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           'Check Your Email',
           style: GoogleFonts.poppins(
             fontSize: 22,
-            fontWeight: FontWeight.w700,
-            color: AppColors.secondary,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: 10),
@@ -266,8 +266,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
         ),
         const SizedBox(height: 14),
-        TextButton(
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
             setState(() {
               _isSubmitted = false;
             });
