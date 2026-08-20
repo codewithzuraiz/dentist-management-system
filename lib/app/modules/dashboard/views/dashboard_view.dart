@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../routes/app_routes.dart';
+import '../../appointment_history/views/appointment_history_view.dart';
+import '../../medical_records/views/medical_records_view.dart';
 import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
@@ -14,25 +16,30 @@ class DashboardView extends GetView<DashboardController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
+        titleSpacing: 12,
         title: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
               'assets/logo/logo.png',
-              height: 36,
+              height: 28,
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) => const Icon(
                 Icons.medical_services_outlined,
                 color: AppColors.primary,
-                size: 28,
+                size: 24,
               ),
             ),
-            const SizedBox(width: 8),
-            const Text(
-              'DentiFlow',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+            const SizedBox(width: 6),
+            const Flexible(
+              child: Text(
+                'DentiFlow',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
             ),
           ],
@@ -57,8 +64,8 @@ class DashboardView extends GetView<DashboardController> {
           index: controller.selectedTab.value,
           children: [
             _buildHomeTab(context),
-            _buildAppointmentsTab(context),
-            _buildRecordsTab(context),
+            const AppointmentHistoryView(),
+            const MedicalRecordsView(),
             _buildProfileTab(context),
           ],
         ),
@@ -98,7 +105,7 @@ class DashboardView extends GetView<DashboardController> {
 
   Widget _buildHomeTab(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -130,15 +137,17 @@ class DashboardView extends GetView<DashboardController> {
                       children: [
                         const Text(
                           'Welcome back 👋',
-                          style: TextStyle(color: Colors.white70, fontSize: 14),
+                          style: TextStyle(color: Colors.white70, fontSize: 13),
                         ),
                         const SizedBox(height: 4),
                         Obx(
                           () => Text(
                             controller.patientName.value,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 22,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -152,36 +161,37 @@ class DashboardView extends GetView<DashboardController> {
                           ),
                           child: const Text(
                             'Treatment Progress: 65% • View Plan →',
-                            style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                            style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
                           ),
                         ),
                       ],
                     ),
                   ),
+                  const SizedBox(width: 10),
                   const CircleAvatar(
-                    radius: 30,
+                    radius: 28,
                     backgroundColor: Colors.white24,
-                    child: Icon(Icons.person, size: 36, color: Colors.white),
+                    child: Icon(Icons.person, size: 32, color: Colors.white),
                   ),
                 ],
               ),
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 22),
 
           // Quick Actions Grid
           const Text(
             'Quick Services',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
             childAspectRatio: 1.15,
             children: [
               _buildQuickCard(
@@ -198,7 +208,7 @@ class DashboardView extends GetView<DashboardController> {
                 subtitle: 'History & X-Rays',
                 color: const Color(0xFFFEF3C7),
                 iconColor: const Color(0xFFD97706),
-                onTap: () => Get.toNamed(Routes.medicalRecords),
+                onTap: () => controller.changeTab(2),
               ),
               _buildQuickCard(
                 icon: Icons.medication_outlined,
@@ -219,7 +229,7 @@ class DashboardView extends GetView<DashboardController> {
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 22),
 
           // Upcoming Appointment Section
           Row(
@@ -230,7 +240,7 @@ class DashboardView extends GetView<DashboardController> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
               ),
               GestureDetector(
-                onTap: () => Get.toNamed(Routes.appointmentHistory),
+                onTap: () => controller.changeTab(1),
                 child: const Text(
                   'See All',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.primary),
@@ -240,9 +250,9 @@ class DashboardView extends GetView<DashboardController> {
           ),
           const SizedBox(height: 12),
           GestureDetector(
-            onTap: () => Get.toNamed(Routes.appointmentHistory),
+            onTap: () => controller.changeTab(1),
             child: Container(
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -262,7 +272,7 @@ class DashboardView extends GetView<DashboardController> {
                       color: AppColors.primaryLight,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Icon(Icons.nature_people, color: AppColors.primary, size: 32),
+                    child: const Icon(Icons.nature_people, color: AppColors.primary, size: 28),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
@@ -271,14 +281,16 @@ class DashboardView extends GetView<DashboardController> {
                       children: const [
                         Text(
                           'Dr. Alex Smith',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 2),
                         Text(
                           'General Dental Checkup & Cleaning',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
                         ),
-                        SizedBox(height: 8),
+                        SizedBox(height: 6),
                         Row(
                           children: [
                             Icon(Icons.access_time, size: 14, color: AppColors.primary),
@@ -309,7 +321,7 @@ class DashboardView extends GetView<DashboardController> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -325,14 +337,14 @@ class DashboardView extends GetView<DashboardController> {
                 color: color,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: iconColor, size: 22),
+              child: Icon(icon, color: iconColor, size: 20),
             ),
             const SizedBox(height: 8),
             Text(
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
             ),
             const SizedBox(height: 2),
             Text(
@@ -347,104 +359,26 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
 
-  Widget _buildAppointmentsTab(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.calendar_month, size: 60, color: AppColors.primary),
-            const SizedBox(height: 16),
-            const Text(
-              'Appointments Management',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'View upcoming visits, book new appointments, or check past history.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
-              onPressed: () => Get.toNamed(Routes.appointmentHistory),
-              icon: const Icon(Icons.history),
-              label: const Text('View Appointment History'),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
-              onPressed: () => Get.toNamed(Routes.findDentist),
-              icon: const Icon(Icons.add),
-              label: const Text('Book New Appointment'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRecordsTab(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.folder_shared_outlined, size: 60, color: AppColors.primary),
-            const SizedBox(height: 16),
-            const Text(
-              'Medical Records & X-Rays',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Access your dental X-rays, lab reports, and doctor prescriptions anytime.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
-              onPressed: () => Get.toNamed(Routes.medicalRecords),
-              icon: const Icon(Icons.folder_open),
-              label: const Text('Open Medical Records'),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
-              onPressed: () => Get.toNamed(Routes.prescriptions),
-              icon: const Icon(Icons.medication_outlined),
-              label: const Text('View Prescriptions'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildProfileTab(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           const CircleAvatar(
-            radius: 45,
+            radius: 42,
             backgroundColor: AppColors.primaryLight,
-            child: Icon(Icons.person, size: 50, color: AppColors.primary),
+            child: Icon(Icons.person, size: 48, color: AppColors.primary),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Obx(
             () => Text(
               controller.patientName.value,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
             ),
           ),
-          const Text('sarah.johnson@example.com', style: TextStyle(fontSize: 14, color: AppColors.textSecondary)),
-          const SizedBox(height: 30),
+          const Text('sarah.johnson@example.com', style: TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+          const SizedBox(height: 24),
           ListTile(
             leading: const Icon(Icons.person_outline, color: AppColors.primary),
             title: const Text('Edit Personal Profile'),

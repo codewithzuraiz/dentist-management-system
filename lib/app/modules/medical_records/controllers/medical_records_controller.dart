@@ -47,6 +47,7 @@ class MedicalRecordsController extends GetxController {
     String selectedType = 'X-Ray';
 
     Get.bottomSheet(
+      isScrollControlled: true,
       Container(
         padding: const EdgeInsets.all(22),
         decoration: const BoxDecoration(

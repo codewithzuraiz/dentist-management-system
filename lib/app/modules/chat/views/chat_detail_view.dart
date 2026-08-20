@@ -27,19 +27,22 @@ class ChatDetailView extends GetView<ChatController> {
               backgroundColor: AppColors.primaryLight,
               child: const Icon(Icons.person, color: AppColors.primary, size: 22),
             ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  doctorName,
-                  style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                const Text(
-                  'Online • DentiFlow Specialist',
-                  style: TextStyle(color: Colors.green, fontSize: 11, fontWeight: FontWeight.w500),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    doctorName,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const Text(
+                    'Online • DentiFlow Specialist',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.green, fontSize: 11, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -113,9 +116,15 @@ class ChatDetailView extends GetView<ChatController> {
 
           // Message Input Field
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: EdgeInsets.only(
+              left: 14,
+              right: 14,
+              top: 10,
+              bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+            ),
             color: Colors.white,
             child: SafeArea(
+              bottom: false,
               child: Row(
                 children: [
                   IconButton(
