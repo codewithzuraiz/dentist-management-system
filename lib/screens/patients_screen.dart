@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/patient_model.dart';
 import '../theme/app_colors.dart';
-import '../widgets/add_edit_patient_dialog.dart';
 import '../widgets/dentiflow_bottom_nav.dart';
 import '../widgets/patient_details_dialog.dart';
+import 'edit_patient_profile_screen.dart';
 
 class PatientsScreen extends StatefulWidget {
   const PatientsScreen({super.key});
@@ -66,19 +67,6 @@ class _PatientsScreenState extends State<PatientsScreen> {
   }
 
   // CRUD Actions
-  void _addPatient(Patient newPatient) {
-    setState(() {
-      _patients.insert(0, newPatient);
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Patient ${newPatient.name} added successfully'),
-        backgroundColor: AppColors.primary,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
   void _updatePatient(Patient updatedPatient) {
     setState(() {
       final index = _patients.indexWhere((p) => p.id == updatedPatient.id);
@@ -108,27 +96,11 @@ class _PatientsScreenState extends State<PatientsScreen> {
     );
   }
 
-  void _openAddModal() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => AddEditPatientDialog(
-        onSave: _addPatient,
-      ),
-    );
-  }
-
   void _openEditModal(Patient patient) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => AddEditPatientDialog(
-        patient: patient,
-        onSave: _updatePatient,
-      ),
-    );
+    Get.to(() => EditPatientProfileScreen(
+          patient: patient,
+          onSave: _updatePatient,
+        ));
   }
 
   void _openDetailsModal(Patient patient) {
@@ -177,12 +149,6 @@ class _PatientsScreenState extends State<PatientsScreen> {
             const DentiFlowBottomNav(currentIndex: 2),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openAddModal,
-        backgroundColor: AppColors.primary,
-        elevation: 3,
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
     );
   }
